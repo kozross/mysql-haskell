@@ -1,13 +1,12 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module ExecuteMany where
 
-import           Control.Applicative
 import           Data.Time.Calendar  (fromGregorian)
 import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
 import           Database.MySQL.Base
-import qualified System.IO.Streams   as Stream
 import           Test.Tasty.HUnit
 
 tests :: MySQLConn -> Assertion

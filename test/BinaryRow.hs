@@ -1,11 +1,10 @@
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module BinaryRow where
 
-import           Control.Applicative
-import           Control.Exception
-import           Control.Monad
 import           Data.Time.Calendar  (fromGregorian)
 import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
 import           Database.MySQL.Base
@@ -91,7 +90,7 @@ tests c = do
 --------------------------------------------------------------------------------
     let bitV = 43744 -- 0b1010101011100000
 
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
                 \__bit        = b'1010101011100000'                    ,\
                 \__tinyInt    = -128                                   ,\
                 \__tinyIntU   = 255                                    ,\
@@ -197,7 +196,7 @@ tests c = do
             \__enum       = ?     ,\
             \__set        = ? WHERE __id=0"
 
-    executeStmt c updStmt
+    _ <- executeStmt c updStmt
                 [ MySQLBit bitV
                 , MySQLInt8 (-128)
                 , MySQLInt8U 255
@@ -269,7 +268,7 @@ tests c = do
 
     Stream.skipToEof is
 --------------------------------------------------------------------------------
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__mediumInt  = null         ,\
         \__double     = null         ,\
         \__text = null WHERE __id=0"
@@ -316,7 +315,7 @@ tests c = do
         \__decimal  = ?         ,\
         \__date     = ?         ,\
         \__timestamp = ? WHERE __id=0"
-    executeStmt c updStmt1 [MySQLNull, MySQLNull, MySQLNull]
+    _ <- executeStmt c updStmt1 [MySQLNull, MySQLNull, MySQLNull]
 
     (_, is) <- queryStmt c selStmt []
     Just v <- Stream.read is
@@ -355,7 +354,7 @@ tests c = do
         ]
 --------------------------------------------------------------------------------
     Stream.skipToEof is
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__time       = '199:59:59'     ,\
         \__year       = 0  WHERE __id=0"
 
@@ -374,7 +373,7 @@ tests c = do
                 \__time       = ?     ,\
                 \__year       = ?  WHERE __id=0"
 
-    executeStmt c updStmt2 [ MySQLTime 0 (TimeOfDay 00 00 00), MySQLYear 2055]
+    _ <- executeStmt c updStmt2 [ MySQLTime 0 (TimeOfDay 00 00 00), MySQLYear 2055]
 
     (_, is) <- queryStmt c selStmt2 []
     Just v <- Stream.read is
@@ -385,7 +384,7 @@ tests c = do
 
     Stream.skipToEof is
 --------------------------------------------------------------------------------
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__text       = ''     ,\
         \__blob       = ''  WHERE __id=0"
 
@@ -404,7 +403,7 @@ tests c = do
                 \__text       = ?     ,\
                 \__blob       = ?  WHERE __id=0"
 
-    executeStmt c updStmt3
+    _ <- executeStmt c updStmt3
         [ MySQLText (T.replicate 100000 "xyz")
         , MySQLBytes (B.replicate 1000000 64)
         ]

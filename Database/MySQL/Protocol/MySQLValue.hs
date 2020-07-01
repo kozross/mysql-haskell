@@ -1,3 +1,8 @@
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 
 {-|
@@ -34,11 +39,9 @@ module Database.MySQL.Protocol.MySQLValue
   ) where
 
 import qualified Blaze.Text                         as Textual
-import           Control.Applicative
 import           Control.Monad
 import           Data.Binary.Put
 import           Data.Binary.Parser
-import           Data.Binary.IEEE754
 import           Data.Bits
 import           Data.ByteString                    (ByteString)
 import qualified Data.ByteString                    as B
@@ -116,7 +119,7 @@ data MySQLValue
     | MySQLBit           !Word64
     | MySQLText          !Text
     | MySQLNull
-  deriving (Show, Eq, Generic)
+  deriving stock (Show, Eq, Generic)
 
 -- | Put 'FieldType' and usigned bit(0x80/0x00) for 'MySQLValue's.
 --
@@ -522,7 +525,9 @@ getBinaryRowVector fields flen = do
 --
 -- We don't use 'Int64' here because there maybe more than 64 columns.
 --
-newtype BitMap = BitMap { fromBitMap :: ByteString } deriving (Eq, Show)
+newtype BitMap = BitMap { fromBitMap :: ByteString } 
+  deriving newtype (Eq)
+  deriving stock (Show)
 
 -- | Test if a column is set(binlog protocol).
 --

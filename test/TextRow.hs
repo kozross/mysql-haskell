@@ -1,9 +1,10 @@
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module TextRow where
 
-import           Control.Applicative
 import           Data.Time.Calendar  (fromGregorian)
 import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
 import           Database.MySQL.Base
@@ -86,7 +87,7 @@ tests c = do
 
     let bitV = 57514 -- 0b1110000010101010
 
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
                 \__bit        = b'1110000010101010'                    ,\
                 \__tinyInt    = -128                                   ,\
                 \__tinyIntU   = 255                                    ,\
@@ -161,7 +162,7 @@ tests c = do
 
     assertEqual "decode text protocol(queryVector_)" v (V.toList v')
 
-    execute c "UPDATE test SET \
+    _ <- execute c "UPDATE test SET \
             \__bit        = ?     ,\
             \__tinyInt    = ?     ,\
             \__tinyIntU   = ?     ,\
@@ -261,7 +262,7 @@ tests c = do
     Stream.skipToEof is
 
 
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__mediumInt  = null         ,\
         \__double     = null         ,\
         \__text = null WHERE __id=0"
@@ -304,7 +305,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute c "UPDATE test SET \
+    _ <- execute c "UPDATE test SET \
         \__decimal  = ?         ,\
         \__date     = ?         ,\
         \__timestamp = ? WHERE __id=0"
@@ -348,7 +349,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__time       = '199:59:59'     ,\
         \__year       = 0  WHERE __id=0"
 
@@ -362,7 +363,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute_ c "UPDATE test SET \
+    _ <- execute_ c "UPDATE test SET \
         \__text       = ''     ,\
         \__blob       = ''  WHERE __id=0"
 
@@ -376,7 +377,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute c "UPDATE test SET \
+    _ <- execute c "UPDATE test SET \
         \__time       = ?     ,\
         \__year       = ?  WHERE __id=0"
         [ MySQLTime 0 (TimeOfDay 199 59 59), MySQLYear 0]

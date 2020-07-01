@@ -1,5 +1,7 @@
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
+{-# LANGUAGE PatternSynonyms #-}
 
 {-|
 Module      : Database.MySQL.Protocol.ColumnDef
@@ -16,7 +18,6 @@ Column definition(aka. field type).
 
 module Database.MySQL.Protocol.ColumnDef where
 
-import           Control.Applicative
 import           Data.Binary
 import           Data.Binary.Get
 import           Data.Binary.Parser
@@ -137,6 +138,126 @@ instance Binary FieldType where
     {-# INLINE get #-}
     put = putFieldType
     {-# INLINE put #-}
+pattern MySQLTypeDecimal :: FieldType
+pattern MySQLTypeDecimal = FieldType 0x00
+
+pattern MySQLTypeTiny :: FieldType
+pattern MySQLTypeTiny = FieldType 0x01
+
+pattern MySQLTypeShort :: FieldType
+pattern MySQLTypeShort = FieldType 0x02
+
+pattern MySQLTypeLong :: FieldType
+pattern MySQLTypeLong = FieldType 0x03
+
+pattern MySQLTypeFloat :: FieldType
+pattern MySQLTypeFloat = FieldType 0x04
+
+pattern MySQLTypeDouble :: FieldType
+pattern MySQLTypeDouble = FieldType 0x05
+
+pattern MySQLTypeNull :: FieldType
+pattern MySQLTypeNull = FieldType 0x06
+
+pattern MySQLTypeTimestamp :: FieldType
+pattern MySQLTypeTimestamp = FieldType 0x07
+
+pattern MySQLTypeLongLong :: FieldType
+pattern MySQLTypeLongLong = FieldType 0x08
+
+pattern MySQLTypeInt24 :: FieldType
+pattern MySQLTypeInt24 = FieldType 0x09
+
+pattern MySQLTypeDate :: FieldType
+pattern MySQLTypeDate = FieldType 0x0a
+
+pattern MySQLTypeTime :: FieldType
+pattern MySQLTypeTime = FieldType 0x0b
+
+pattern MySQLTypeDateTime :: FieldType
+pattern MySQLTypeDateTime = FieldType 0x0c
+
+pattern MySQLTypeYear :: FieldType
+pattern MySQLTypeYear = FieldType 0x0d
+
+pattern MySQLTypeNewDate :: FieldType
+pattern MySQLTypeNewDate = FieldType 0x0e
+
+pattern MySQLTypeVarChar :: FieldType
+pattern MySQLTypeVarChar = FieldType 0x0f
+
+pattern MySQLTypeBit :: FieldType
+pattern MySQLTypeBit = FieldType 0x10
+
+pattern MySQLTypeTimestamp2 :: FieldType
+pattern MySQLTypeTimestamp2 = FieldType 0x11
+
+pattern MySQLTypeDateTime2 :: FieldType
+pattern MySQLTypeDateTime2 = FieldType 0x12
+
+pattern MySQLTypeTime2 :: FieldType
+pattern MySQLTypeTime2 = FieldType 0x13
+
+pattern MySQLTypeNewDecimal :: FieldType
+pattern MySQLTypeNewDecimal = FieldType 0xf6
+
+pattern MySQLTypeEnum :: FieldType
+pattern MySQLTypeEnum = FieldType 0xf7
+
+pattern MySQLTypeSet :: FieldType
+pattern MySQLTypeSet = FieldType 0xf8
+
+pattern MySQLTypeTinyBlob :: FieldType
+pattern MySQLTypeTinyBlob = FieldType 0xf9
+
+pattern MySQLTypeMediumBlob :: FieldType
+pattern MySQLTypeMediumBlob = FieldType 0xfa
+
+pattern MySQLTypeLongBlob :: FieldType
+pattern MySQLTypeLongBlob = FieldType 0xfb
+
+pattern MySQLTypeBlob :: FieldType
+pattern MySQLTypeBlob = FieldType 0xfc
+
+pattern MySQLTypeVarString :: FieldType
+pattern MySQLTypeVarString = FieldType 0xfd
+
+pattern MySQLTypeString :: FieldType
+pattern MySQLTypeString = FieldType 0xfe
+
+pattern MySQLTypeGeometry :: FieldType
+pattern MySQLTypeGeometry = FieldType 0xfe
+
+{-# COMPLETE MySQLTypeDecimal,
+             MySQLTypeTiny,
+             MySQLTypeShort,
+             MySQLTypeLong,
+             MySQLTypeFloat,
+             MySQLTypeDouble,
+             MySQLTypeNull,
+             MySQLTypeTimestamp,
+             MySQLTypeLongLong,
+             MySQLTypeInt24,
+             MySQLTypeDate,
+             MySQLTypeTime,
+             MySQLTypeDateTime,
+             MySQLTypeYear,
+             MySQLTypeNewDate,
+             MySQLTypeVarChar,
+             MySQLTypeBit,
+             MySQLTypeTimestamp2,
+             MySQLTypeDateTime2,
+             MySQLTypeTime2,
+             MySQLTypeNewDecimal,
+             MySQLTypeEnum,
+             MySQLTypeSet,
+             MySQLTypeTinyBlob,
+             MySQLTypeMediumBlob,
+             MySQLTypeLongBlob,
+             MySQLTypeBlob,
+             MySQLTypeVarString,
+             MySQLTypeString,
+             MySQLTypeGeometry #-}
 
 --------------------------------------------------------------------------------
 --  Field flags

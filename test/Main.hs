@@ -1,3 +1,5 @@
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
@@ -6,14 +8,11 @@ import qualified BinaryRow
 import qualified BinaryRowNew
 import qualified BinLog
 import qualified BinLogNew
-import           Control.Concurrent    (forkIO, threadDelay)
-import           Control.Exception     (bracket, catch)
+import           Control.Concurrent    (forkIO)
+import           Control.Exception     (catch)
 import           Control.Monad
 import qualified Data.ByteString       as B
 import           Database.MySQL.Base
-import           Database.MySQL.BinLog
-import           System.Environment
-import qualified System.IO.Streams as Stream
 import           Test.Tasty
 import           Test.Tasty.HUnit
 import qualified TextRow
@@ -33,10 +32,10 @@ main = defaultMain $ testCaseSteps "mysql-haskell test suit" $ \step -> do
                                              -- TIME, DATETIME, and TIMESTAMP support fractional seconds
 
 
-    execute_ c "DROP TABLE IF EXISTS test"
-    execute_ c "DROP TABLE IF EXISTS test_new"
+    _ <- execute_ c "DROP TABLE IF EXISTS test"
+    _ <- execute_ c "DROP TABLE IF EXISTS test_new"
 
-    execute_ c  "CREATE TABLE test(\
+    _ <- execute_ c  "CREATE TABLE test(\
                 \__id           INT,\
                 \__bit          BIT(16),\
                 \__tinyInt      TINYINT,\
@@ -69,38 +68,38 @@ main = defaultMain $ testCaseSteps "mysql-haskell test suit" $ \step -> do
                 \__set          SET('foo', 'bar', 'qux')\
                 \) CHARACTER SET utf8"
 
-    resetTestTable c
+    _ <- resetTestTable c
 
     step "testing executeMany"
     ExecuteMany.tests c
 
-    resetTestTable c
+    _ <- resetTestTable c
 
     step "testing text protocol"
     TextRow.tests c
 
-    resetTestTable c
+    _ <- resetTestTable c
 
     step "testing binary protocol"
     BinaryRow.tests c
 
-    resetTestTable c
+    _ <- resetTestTable c
 
 
     when isNew $ do
-        execute_ c "CREATE TABLE test_new(\
+        _ <- execute_ c "CREATE TABLE test_new(\
                    \__id           INT,\
                    \__datetime     DATETIME(2),\
                    \__timestamp    TIMESTAMP(4) NULL,\
                    \__time         TIME(6)\
                    \) CHARACTER SET utf8"
 
-        resetTest57Table c
+        _ <- resetTest57Table c
 
         step "testing MySQL5.7 extra text protocol"
         TextRowNew.tests c
 
-        resetTest57Table c
+        _ <- resetTest57Table c
 
         step "testing MySQL5.7 extra binary protocol"
         BinaryRowNew.tests c
@@ -111,24 +110,24 @@ main = defaultMain $ testCaseSteps "mysql-haskell test suit" $ \step -> do
 
     if isNew
     then do
-        forkIO BinLogNew.eventProducer
+        _ <- forkIO BinLogNew.eventProducer
         BinLogNew.tests c
     else do
-        forkIO BinLog.eventProducer
+        _ <- forkIO BinLog.eventProducer
         BinLog.tests c
 
     close c
 
-    (greet, c) <- connectDetail defaultConnectInfo {ciUser = "testMySQLHaskell", ciDatabase = "testMySQLHaskell"}
-    execute_ c "SET PASSWORD = PASSWORD('123456abcdefg???')"
+    (_, c) <- connectDetail defaultConnectInfo {ciUser = "testMySQLHaskell", ciDatabase = "testMySQLHaskell"}
+    _ <- execute_ c "SET PASSWORD = PASSWORD('123456abcdefg???')"
     close c
 
     let loginFailMsg = "ERRException (ERR {errCode = 1045, errState = \"28000\", \
             \errMsg = \"Access denied for user 'testMySQLHaskell'@'localhost' (using password: YES)\"})"
 
-    (greet, c) <- connectDetail
+    (_, c) <- connectDetail
         defaultConnectInfo {ciUser = "testMySQLHaskell", ciDatabase = "testMySQLHaskell", ciPassword = "123456abcdefg???"}
-    execute_ c "SET PASSWORD = PASSWORD('')"
+    _ <- execute_ c "SET PASSWORD = PASSWORD('')"
     close c
 
     catch
@@ -139,7 +138,7 @@ main = defaultMain $ testCaseSteps "mysql-haskell test suit" $ \step -> do
 
   where
     resetTestTable c = do
-            execute_ c  "DELETE FROM test WHERE __id=0"
+            _ <- execute_ c  "DELETE FROM test WHERE __id=0"
             execute_ c  "INSERT INTO test VALUES(\
                     \0,\
                     \NULL,\
@@ -174,7 +173,7 @@ main = defaultMain $ testCaseSteps "mysql-haskell test suit" $ \step -> do
                     \)"
 
     resetTest57Table c = do
-            execute_ c  "DELETE FROM test_new WHERE __id=0"
+            _ <- execute_ c  "DELETE FROM test_new WHERE __id=0"
             execute_ c  "INSERT INTO test_new VALUES(\
                         \0,\
                         \NULL,\

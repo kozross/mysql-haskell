@@ -1,3 +1,5 @@
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 
 {-|
@@ -14,7 +16,6 @@ Binlog event type
 
 module Database.MySQL.BinLogProtocol.BinLogEvent where
 
-import           Control.Applicative
 import           Control.Monad
 import           Control.Monad.Loops                       (untilM)
 import           Data.Binary
@@ -74,7 +75,7 @@ data BinLogEventType
     | BINLOG_GTID_EVENT
     | BINLOG_ANONYMOUS_GTID_EVENT
     | BINLOG_PREVIOUS_GTIDS_EVENT
-  deriving (Show, Eq, Enum)
+  deriving stock (Show, Eq, Enum)
 
 data BinLogPacket = BinLogPacket
     { blTimestamp :: !Word32
@@ -85,7 +86,7 @@ data BinLogPacket = BinLogPacket
     , blFlags     :: !Word16
     , blBody      :: !L.ByteString
     , blSemiAck   :: !Bool
-    } deriving (Show, Eq)
+    } deriving stock (Show, Eq)
 
 putSemiAckResp :: Word32 -> ByteString -> Put
 putSemiAckResp pos fn = put pos >> put fn
@@ -126,7 +127,7 @@ data FormatDescription = FormatDescription
     -- , eventHeaderLen :: !Word8  -- const 19
     , fdEventHeaderLenVector :: !ByteString  -- ^ a array indexed by Binlog Event Type - 1
                                              -- to extract the length of the event specific header.
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getFormatDescription :: Get FormatDescription
 getFormatDescription = FormatDescription <$> getWord16le
@@ -139,7 +140,8 @@ eventHeaderLen :: FormatDescription -> BinLogEventType -> Word8
 eventHeaderLen fd typ = B.unsafeIndex (fdEventHeaderLenVector fd) (fromEnum typ - 1)
 
 data RotateEvent = RotateEvent
-    { rPos :: !Word64, rFileName :: !ByteString } deriving (Show, Eq)
+    { rPos :: !Word64, rFileName :: !ByteString } 
+    deriving stock (Show, Eq)
 
 getRotateEvent :: Get RotateEvent
 getRotateEvent = RotateEvent <$> getWord64le <*> getRemainingByteString
@@ -154,7 +156,7 @@ data QueryEvent = QueryEvent
     , qStatusVars   :: !ByteString
     , qSchemaName   :: !ByteString
     , qQuery        :: !Query
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getQueryEvent :: Get QueryEvent
 getQueryEvent = do
@@ -187,7 +189,7 @@ data TableMapEvent = TableMapEvent
     , tmColumnType :: ![FieldType]
     , tmColumnMeta :: ![BinLogMeta]
     , tmNullMap    :: !ByteString
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getTableMapEvent :: FormatDescription -> Get TableMapEvent
 getTableMapEvent fd = do
@@ -219,7 +221,7 @@ data DeleteRowsEvent = DeleteRowsEvent
     , deleteColumnCnt  :: !Int
     , deletePresentMap :: !BitMap
     , deleteRowData    :: ![[BinLogValue]]
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getDeleteRowEvent :: FormatDescription -> TableMapEvent -> BinLogEventType -> Get DeleteRowsEvent
 getDeleteRowEvent fd tme typ = do
@@ -241,7 +243,7 @@ data WriteRowsEvent = WriteRowsEvent
     , writeColumnCnt  :: !Int
     , writePresentMap :: !BitMap
     , writeRowData    :: ![[BinLogValue]]
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getWriteRowEvent :: FormatDescription -> TableMapEvent -> BinLogEventType -> Get WriteRowsEvent
 getWriteRowEvent fd tme typ = do
@@ -263,7 +265,7 @@ data UpdateRowsEvent = UpdateRowsEvent
     , updateColumnCnt  :: !Int
     , updatePresentMap :: !(BitMap, BitMap)
     , updateRowData    :: ![ ([BinLogValue], [BinLogValue]) ]
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 getUpdateRowEvent :: FormatDescription -> TableMapEvent -> BinLogEventType -> Get UpdateRowsEvent
 getUpdateRowEvent fd tme typ = do

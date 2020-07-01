@@ -1,3 +1,8 @@
+{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 {-|
 Module      : Database.MySQL.BinLog
 Description : Binary protocol toolkit
@@ -28,7 +33,6 @@ module Database.MySQL.BinLog
     , module Database.MySQL.BinLogProtocol.BinLogMeta
     ) where
 
-import           Control.Applicative
 import           Control.Exception                         (throwIO)
 import           Control.Monad
 import           Data.Binary.Put
@@ -54,7 +58,7 @@ type SlaveID = Word32
 data BinLogTracker = BinLogTracker
     { btFileName :: {-# UNPACK #-} !ByteString
     , btNextPos  :: {-# UNPACK #-} !Word32
-    } deriving (Show, Eq, Generic)
+    } deriving stock (Show, Eq, Generic)
 
 -- | Register a pesudo slave to master, although MySQL document suggests you should call this
 -- before calling 'dumpBinLog', but it seems it's not really necessary.
@@ -121,7 +125,7 @@ dumpBinLog conn@(MySQLConn is wp _ consumed) sid (BinLogTracker initfn initpos) 
         p <- readPacket is'
         if  | isOK p -> Just <$> getFromPacket (getBinLogPacket checksum needAck) p
             | isEOF p -> return Nothing
-            | isERR p -> decodeFromPacket p >>= throwIO . ERRException
+            | otherwise -> decodeFromPacket p >>= throwIO . ERRException
 
 -- | Row based binlog event type.
 --
@@ -139,7 +143,7 @@ data RowBinLogEvent
     | RowDeleteEvent {-# UNPACK #-} !Word32 !BinLogTracker !TableMapEvent !DeleteRowsEvent
     | RowWriteEvent  {-# UNPACK #-} !Word32 !BinLogTracker !TableMapEvent !WriteRowsEvent
     | RowUpdateEvent {-# UNPACK #-} !Word32 !BinLogTracker !TableMapEvent !UpdateRowsEvent
-  deriving (Show, Eq, Generic)
+  deriving stock (Show, Eq, Generic)
 
 -- | decode row based event from 'BinLogPacket' stream.
 decodeRowBinLogEvent :: (FormatDescription, IORef ByteString, InputStream BinLogPacket)

@@ -1,3 +1,7 @@
+{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DeriveGeneric #-}
+
 {-|
 Module      : Database.MySQL.BinLogProtocol.BinLogValue
 Description : Binlog protocol
@@ -13,9 +17,7 @@ Binlog protocol
 
 module Database.MySQL.BinLogProtocol.BinLogValue where
 
-import           Control.Applicative
 import           Data.Binary.Get
-import           Data.Binary.IEEE754
 import           Data.Binary.Put                          ()
 import           Data.Bits
 import           Data.ByteString                          (ByteString)
@@ -78,7 +80,7 @@ data BinLogValue
     | BinLogBytes      !ByteString                             -- ^ all string and blob values.
     | BinLogGeometry   !ByteString
     | BinLogNull
-  deriving (Show, Eq, Generic)
+  deriving stock (Show, Eq, Generic)
 
 --------------------------------------------------------------------------------
 -- | BinLog protocol decoder

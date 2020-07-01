@@ -1,9 +1,10 @@
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module TextRowNew where
 
-import           Control.Applicative
 import           Data.Time.Calendar  (fromGregorian)
 import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
 import           Database.MySQL.Base
@@ -31,7 +32,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute_ c "UPDATE test_new SET \
+    _ <- execute_ c "UPDATE test_new SET \
                 \__datetime   = '2016-08-08 17:25:59.12'                  ,\
                 \__timestamp  = '2016-08-08 17:25:59.1234'                ,\
                 \__time       = '-199:59:59.123456' WHERE __id=0"
@@ -48,7 +49,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute_ c "UPDATE test_new SET \
+    _ <- execute_ c "UPDATE test_new SET \
                 \__datetime   = '2016-08-08 17:25:59.1'                  ,\
                 \__timestamp  = '2016-08-08 17:25:59.12'                ,\
                 \__time       = '199:59:59.1234' WHERE __id=0"
@@ -65,7 +66,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute c "UPDATE test_new SET \
+    _ <- execute c "UPDATE test_new SET \
             \__datetime   = ?     ,\
             \__timestamp  = ?     ,\
             \__time       = ?  WHERE __id=0"
@@ -87,7 +88,7 @@ tests c = do
 
     Stream.skipToEof is
 
-    execute c "UPDATE test_new SET \
+    _ <- execute c "UPDATE test_new SET \
             \__datetime   = ?     ,\
             \__timestamp  = ?     ,\
             \__time       = ?  WHERE __id=0"
@@ -120,13 +121,13 @@ tests c = do
             , MySQLTimeStamp (LocalTime (fromGregorian 2016 08 09) (TimeOfDay 18 25 59.12))
             , MySQLTime 0 (TimeOfDay 299 59 59.1234)
             ]
-    execute c "UPDATE test_new SET \
+    _ <- execute c "UPDATE test_new SET \
             \__id         = ?     ,\
             \__datetime   = ?     ,\
             \__timestamp  = ?     ,\
             \__time       = ?  WHERE __id=0"
             row0
-    execute c "INSERT INTO test_new VALUES(\
+    _ <- execute c "INSERT INTO test_new VALUES(\
             \?,\
             \?,\
             \?,\
@@ -141,6 +142,6 @@ tests c = do
     assertEqual "select list of ids" [v0, v1] [row0, row1]
 
     Stream.skipToEof is
-    execute_ c "DELETE FROM test_new where __id=1"
+    _ <- execute_ c "DELETE FROM test_new where __id=1"
 
     return ()

@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 {-|
 Module      : Database.MySQL.Connection
 Description : TLS support for mysql-haskell via @tls@ package.

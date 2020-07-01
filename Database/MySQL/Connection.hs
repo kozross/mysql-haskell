@@ -1,3 +1,6 @@
+{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 {-|
 Module      : Database.MySQL.Connection
 Description : Connection managment
@@ -13,7 +16,6 @@ This is an internal module, the 'MySQLConn' type should not directly acessed to 
 
 module Database.MySQL.Connection where
 
-import           Control.Applicative
 import           Control.Exception               (Exception, bracketOnError,
                                                   throwIO, catch, SomeException)
 import           Control.Monad
