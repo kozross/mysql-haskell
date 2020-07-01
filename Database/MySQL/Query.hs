@@ -1,14 +1,14 @@
 module Database.MySQL.Query where
 
-import           Data.String               (IsString (..))
-import           Control.Exception         (throw, Exception)
-import           Data.Typeable
-import qualified Data.ByteString.Lazy      as L
-import qualified Data.ByteString.Lazy.Char8     as LC
-import qualified Data.ByteString.Builder   as BB
-import           Control.Arrow             (first)
-import           Database.MySQL.Protocol.MySQLValue
+import           Control.Arrow (first)
+import           Control.Exception (Exception, throw)
 import           Data.Binary.Put
+import qualified Data.ByteString.Builder as BB
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Lazy.Char8 as LC
+import           Data.String (IsString (..))
+import           Data.Typeable
+import           Database.MySQL.Protocol.MySQLValue
 
 -- | Query string type borrowed from @mysql-simple@.
 --

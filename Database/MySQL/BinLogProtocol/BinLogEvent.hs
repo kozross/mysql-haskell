@@ -1,5 +1,5 @@
+{-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DeriveGeneric #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 
 {-|
@@ -17,23 +17,23 @@ Binlog event type
 module Database.MySQL.BinLogProtocol.BinLogEvent where
 
 import           Control.Monad
-import           Control.Monad.Loops                       (untilM)
+import           Control.Monad.Loops (untilM)
 import           Data.Binary
 import           Data.Binary.Parser
 import           Data.Bits
-import           Data.ByteString                           (ByteString)
-import qualified Data.ByteString                           as B
-import qualified Data.ByteString.Lazy                      as L
-import qualified Data.ByteString.Unsafe                    as B
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Unsafe as B
 import           Database.MySQL.BinLogProtocol.BinLogMeta
 import           Database.MySQL.BinLogProtocol.BinLogValue
-import           Database.MySQL.Protocol.Packet
-import           Database.MySQL.Protocol.MySQLValue
 import           Database.MySQL.Protocol.ColumnDef
+import           Database.MySQL.Protocol.MySQLValue
+import           Database.MySQL.Protocol.Packet
 
-import           Control.Exception                         (throwIO)
+import           Control.Exception (throwIO)
 import           Database.MySQL.Query
-import           GHC.Generics                              (Generic)
+import           GHC.Generics (Generic)
 
 --------------------------------------------------------------------------------
 -- | binlog tyoe
@@ -140,7 +140,7 @@ eventHeaderLen :: FormatDescription -> BinLogEventType -> Word8
 eventHeaderLen fd typ = B.unsafeIndex (fdEventHeaderLenVector fd) (fromEnum typ - 1)
 
 data RotateEvent = RotateEvent
-    { rPos :: !Word64, rFileName :: !ByteString } 
+    { rPos :: !Word64, rFileName :: !ByteString }
     deriving stock (Show, Eq)
 
 getRotateEvent :: Get RotateEvent

@@ -1,7 +1,7 @@
-{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf         #-}
+{-# LANGUAGE OverloadedStrings  #-}
 
 {-|
 Module      : Database.MySQL.BinLog
@@ -33,23 +33,21 @@ module Database.MySQL.BinLog
     , module Database.MySQL.BinLogProtocol.BinLogMeta
     ) where
 
-import           Control.Exception                         (throwIO)
+import           Control.Exception (throwIO)
 import           Control.Monad
 import           Data.Binary.Put
-import           Data.ByteString                           (ByteString)
-import           Data.IORef                                (IORef, newIORef,
-                                                            readIORef,
-                                                            writeIORef)
-import           Data.Text.Encoding                        (encodeUtf8)
+import           Data.ByteString (ByteString)
+import           Data.IORef (IORef, newIORef, readIORef, writeIORef)
+import           Data.Text.Encoding (encodeUtf8)
 import           Data.Word
 import           Database.MySQL.Base
 import           Database.MySQL.BinLogProtocol.BinLogEvent
 import           Database.MySQL.BinLogProtocol.BinLogMeta
 import           Database.MySQL.BinLogProtocol.BinLogValue
 import           Database.MySQL.Connection
-import           GHC.Generics                              (Generic)
-import           System.IO.Streams                         (InputStream)
-import qualified System.IO.Streams                         as Stream
+import           GHC.Generics (Generic)
+import           System.IO.Streams (InputStream)
+import qualified System.IO.Streams as Stream
 
 type SlaveID = Word32
 

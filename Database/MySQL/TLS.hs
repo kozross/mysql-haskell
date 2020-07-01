@@ -19,19 +19,19 @@ module Database.MySQL.TLS (
     , module Data.TLSSetting
     ) where
 
-import           Control.Exception              (bracketOnError, throwIO)
-import qualified Data.Binary                    as Binary
-import qualified Data.Binary.Put                as Binary
-import qualified Data.Connection                as Conn
-import           Data.IORef                     (newIORef)
+import           Control.Exception (bracketOnError, throwIO)
+import qualified Data.Binary as Binary
+import qualified Data.Binary.Put as Binary
+import qualified Data.Connection as Conn
+import qualified Data.Connection as TCP
+import           Data.IORef (newIORef)
 import           Data.TLSSetting
-import           Database.MySQL.Connection      hiding (connect, connectDetail)
+import           Database.MySQL.Connection hiding (connect, connectDetail)
 import           Database.MySQL.Protocol.Auth
 import           Database.MySQL.Protocol.Packet
-import qualified Network.TLS                    as TLS
-import qualified System.IO.Streams.TCP          as TCP
-import qualified Data.Connection                as TCP
-import qualified System.IO.Streams.TLS          as TLS
+import qualified Network.TLS as TLS
+import qualified System.IO.Streams.TCP as TCP
+import qualified System.IO.Streams.TLS as TLS
 
 --------------------------------------------------------------------------------
 

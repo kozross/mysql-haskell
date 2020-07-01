@@ -1,18 +1,18 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
+{-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module BinaryRow where
 
-import           Data.Time.Calendar  (fromGregorian)
-import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
-import           Database.MySQL.Base
-import qualified System.IO.Streams   as Stream
-import           Test.Tasty.HUnit
-import qualified Data.Text as T
 import qualified Data.ByteString as B
+import qualified Data.Text as T
+import           Data.Time.Calendar (fromGregorian)
+import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
 import qualified Data.Vector as V
+import           Database.MySQL.Base
+import qualified System.IO.Streams as Stream
+import           Test.Tasty.HUnit
 
 tests :: MySQLConn -> Assertion
 tests c = do

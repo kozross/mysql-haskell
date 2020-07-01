@@ -1,16 +1,16 @@
-{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NegativeLiterals    #-}
+{-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module BinLogNew where
 
-import Data.Maybe (fromJust)
+import           Data.Maybe (fromJust)
 import           Data.Time.Clock.POSIX
 import           Data.Time.Format
 import           Data.Time.LocalTime
 import           Database.MySQL.Base
 import           Database.MySQL.BinLog
-import qualified System.IO.Streams     as Stream
+import qualified System.IO.Streams as Stream
 import           Test.Tasty.HUnit
 
 eventProducer :: IO ()

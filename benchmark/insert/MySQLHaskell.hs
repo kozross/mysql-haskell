@@ -5,16 +5,16 @@ module Main where
 
 import           Control.Concurrent.Async
 import           Control.Monad
+import qualified Data.ByteString as B
 import           Database.MySQL.Base
 import           System.Environment
-import           System.IO.Streams        (fold)
-import  qualified Data.ByteString as B
+import           System.IO.Streams (fold)
 
 main :: IO ()
 main = do
     args <- getArgs
     case args of [threadNum] -> go (read threadNum)
-                 _ -> putStrLn "No thread number provided."
+                 _           -> putStrLn "No thread number provided."
 
 go :: Int -> IO ()
 go n = void . flip mapConcurrently [1..n] $ \ _ -> do

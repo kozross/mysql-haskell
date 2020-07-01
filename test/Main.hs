@@ -1,5 +1,5 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings   #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
@@ -8,15 +8,15 @@ import qualified BinaryRow
 import qualified BinaryRowNew
 import qualified BinLog
 import qualified BinLogNew
-import           Control.Concurrent    (forkIO)
-import           Control.Exception     (catch)
+import           Control.Concurrent (forkIO)
+import           Control.Exception (catch)
 import           Control.Monad
-import qualified Data.ByteString       as B
+import qualified Data.ByteString as B
 import           Database.MySQL.Base
+import qualified ExecuteMany
 import           Test.Tasty
 import           Test.Tasty.HUnit
 import qualified TextRow
-import qualified ExecuteMany
 import qualified TextRowNew
 
 main :: IO ()

@@ -1,8 +1,8 @@
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE MultiWayIf                 #-}
+{-# LANGUAGE OverloadedStrings          #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
 
 {-|
@@ -38,38 +38,35 @@ module Database.MySQL.Protocol.MySQLValue
   , makeNullMap
   ) where
 
-import qualified Blaze.Text                         as Textual
+import qualified Blaze.Text as Textual
 import           Control.Monad
-import           Data.Binary.Put
 import           Data.Binary.Parser
+import           Data.Binary.Put
 import           Data.Bits
-import           Data.ByteString                    (ByteString)
-import qualified Data.ByteString                    as B
-import qualified Data.ByteString.Builder            as BB
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Builder as BB
 import           Data.ByteString.Builder.Scientific (FPFormat (..),
                                                      formatScientificBuilder)
-import qualified Data.ByteString.Char8              as BC
-import qualified Data.ByteString.Lazy               as L
-import qualified Data.ByteString.Lex.Fractional     as LexFrac
-import qualified Data.ByteString.Lex.Integral       as LexInt
-import qualified Data.ByteString.Unsafe             as B
-import           Data.Fixed                         (Pico)
+import qualified Data.ByteString.Char8 as BC
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Lex.Fractional as LexFrac
+import qualified Data.ByteString.Lex.Integral as LexInt
+import qualified Data.ByteString.Unsafe as B
+import           Data.Fixed (Pico)
 import           Data.Int
-import           Data.Scientific                    (Scientific)
-import           Data.Text                          (Text)
-import qualified Data.Text.Encoding                 as T
-import           Data.Time.Calendar                 (Day, fromGregorian,
-                                                     toGregorian)
-import           Data.Time.Format                   (defaultTimeLocale,
-                                                     formatTime)
-import           Data.Time.LocalTime                (LocalTime (..),
-                                                     TimeOfDay (..))
+import           Data.Scientific (Scientific)
+import           Data.Text (Text)
+import qualified Data.Text.Encoding as T
+import           Data.Time.Calendar (Day, fromGregorian, toGregorian)
+import           Data.Time.Format (defaultTimeLocale, formatTime)
+import           Data.Time.LocalTime (LocalTime (..), TimeOfDay (..))
+import qualified Data.Vector as V
 import           Data.Word
 import           Database.MySQL.Protocol.ColumnDef
 import           Database.MySQL.Protocol.Escape
 import           Database.MySQL.Protocol.Packet
-import           GHC.Generics                       (Generic)
-import qualified Data.Vector                        as V
+import           GHC.Generics (Generic)
 
 --------------------------------------------------------------------------------
 -- | Data type mapping between MySQL values and haskell values.
@@ -525,7 +522,7 @@ getBinaryRowVector fields flen = do
 --
 -- We don't use 'Int64' here because there maybe more than 64 columns.
 --
-newtype BitMap = BitMap { fromBitMap :: ByteString } 
+newtype BitMap = BitMap { fromBitMap :: ByteString }
   deriving newtype (Eq)
   deriving stock (Show)
 

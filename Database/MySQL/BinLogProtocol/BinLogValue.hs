@@ -1,6 +1,6 @@
-{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE DeriveGeneric      #-}
 {-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE MultiWayIf         #-}
 
 {-|
 Module      : Database.MySQL.BinLogProtocol.BinLogValue
@@ -18,11 +18,11 @@ Binlog protocol
 module Database.MySQL.BinLogProtocol.BinLogValue where
 
 import           Data.Binary.Get
-import           Data.Binary.Put                          ()
+import           Data.Binary.Put ()
 import           Data.Bits
-import           Data.ByteString                          (ByteString)
-import qualified Data.ByteString                          as B
-import qualified Data.ByteString.Unsafe                   as B
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Unsafe as B
 import           Data.Int
 import           Data.Int.Int24
 import           Data.Scientific
@@ -30,7 +30,7 @@ import           Data.Word
 import           Database.MySQL.BinLogProtocol.BinLogMeta
 import           Database.MySQL.Protocol.MySQLValue
 import           Database.MySQL.Protocol.Packet
-import           GHC.Generics                             (Generic)
+import           GHC.Generics (Generic)
 
 -- | Data type for representing binlog values.
 --

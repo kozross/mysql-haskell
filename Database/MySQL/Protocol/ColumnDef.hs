@@ -1,7 +1,7 @@
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE CPP #-}
 {-# OPTIONS_GHC -funbox-strict-fields #-}
-{-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE PatternSynonyms   #-}
 
 {-|
 Module      : Database.MySQL.Protocol.ColumnDef
@@ -22,8 +22,8 @@ import           Data.Binary
 import           Data.Binary.Get
 import           Data.Binary.Parser
 import           Data.Binary.Put
-import           Data.Bits                      ((.&.))
-import           Data.ByteString                (ByteString)
+import           Data.Bits ((.&.))
+import           Data.ByteString (ByteString)
 import           Database.MySQL.Protocol.Packet
 
 --------------------------------------------------------------------------------

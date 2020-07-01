@@ -20,8 +20,8 @@ import           Data.Binary
 import           Data.Binary.Get
 import           Data.Binary.Parser
 import           Data.Binary.Put
-import           Data.ByteString                    (ByteString)
-import qualified Data.ByteString.Lazy               as L
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString.Lazy as L
 import           Database.MySQL.Protocol.MySQLValue
 import           Database.MySQL.Protocol.Packet
 

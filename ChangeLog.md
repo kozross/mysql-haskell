@@ -1,5 +1,14 @@
 # Revision history for mysql-haskell
 
+## 0.9.0.0 -- 2020-07-01
+
+* Update to GHC 8.8.1
+* Update Cabal file with proper settings
+* Resolve a bunch of warnings
+* Remove unnecessary dependencies on `binary-ieee754` and `wire-streams`
+* Add pattern synonyms (and a COMPLETE pragma) for more convenient handling of
+  `FieldType` for users
+
 ## 0.8.4.2 -- 2019-01-22
 
 * Fix [stackage#4312](https://github.com/commercialhaskell/stackage/issues/4312): Relax `network` bounds.

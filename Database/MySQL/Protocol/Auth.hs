@@ -21,9 +21,9 @@ import           Data.Binary
 import           Data.Binary.Get
 import           Data.Binary.Parser
 import           Data.Binary.Put
-import qualified Data.ByteString                as B
-import           Data.ByteString.Char8          as BC
 import           Data.Bits
+import qualified Data.ByteString as B
+import           Data.ByteString.Char8 as BC
 import           Database.MySQL.Protocol.Packet
 
 --------------------------------------------------------------------------------
@@ -53,14 +53,14 @@ import           Database.MySQL.Protocol.Packet
 #define CLIENT_PLUGIN_AUTH_LENENC_CLIENT_DATA 0x00200000
 
 data Greeting = Greeting
-    { greetingProtocol :: !Word8
-    , greetingVersion  :: !B.ByteString
-    , greetingConnId   :: !Word32
-    , greetingSalt1    :: !B.ByteString
-    , greetingCaps     :: !Word32
-    , greetingCharset  :: !Word8
-    , greetingStatus   :: !Word16
-    , greetingSalt2    :: !B.ByteString
+    { greetingProtocol   :: !Word8
+    , greetingVersion    :: !B.ByteString
+    , greetingConnId     :: !Word32
+    , greetingSalt1      :: !B.ByteString
+    , greetingCaps       :: !Word32
+    , greetingCharset    :: !Word8
+    , greetingStatus     :: !Word16
+    , greetingSalt2      :: !B.ByteString
     , greetingAuthPlugin :: !B.ByteString
     } deriving (Show, Eq)
 

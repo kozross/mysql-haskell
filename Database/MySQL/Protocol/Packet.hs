@@ -15,18 +15,18 @@ MySQL packet decoder&encoder, and varities utility.
 
 module Database.MySQL.Protocol.Packet where
 
-import           Control.Exception     (Exception (..), throwIO)
+import           Control.Exception (Exception (..), throwIO)
+import           Data.Binary (Binary (..), encode)
 import           Data.Binary.Parser
 import           Data.Binary.Put
-import           Data.Binary           (Binary(..), encode)
 import           Data.Bits
-import qualified Data.ByteString       as B
+import qualified Data.ByteString as B
 import           Data.ByteString.Char8 as BC
-import qualified Data.ByteString.Lazy  as L
-import           Data.Int.Int24
+import qualified Data.ByteString.Lazy as L
 import           Data.Int
-import           Data.Word
+import           Data.Int.Int24
 import           Data.Typeable
+import           Data.Word
 import           Data.Word.Word24
 
 --------------------------------------------------------------------------------

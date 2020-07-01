@@ -1,4 +1,4 @@
-{-# LANGUAGE MultiWayIf #-}
+{-# LANGUAGE MultiWayIf        #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 {-|
@@ -16,30 +16,29 @@ This is an internal module, the 'MySQLConn' type should not directly acessed to 
 
 module Database.MySQL.Connection where
 
-import           Control.Exception               (Exception, bracketOnError,
-                                                  throwIO, catch, SomeException)
+import           Control.Exception (Exception, SomeException, bracketOnError,
+                                    catch, throwIO)
 import           Control.Monad
-import qualified Crypto.Hash                     as Crypto
-import qualified Data.Binary                     as Binary
-import qualified Data.Binary.Put                 as Binary
+import qualified Crypto.Hash as Crypto
+import qualified Data.Binary as Binary
+import qualified Data.Binary.Put as Binary
 import           Data.Bits
-import qualified Data.ByteArray                  as BA
-import           Data.ByteString                 (ByteString)
-import qualified Data.ByteString                 as B
-import qualified Data.ByteString.Lazy            as L
-import qualified Data.ByteString.Unsafe          as B
-import           Data.IORef                      (IORef, newIORef, readIORef,
-                                                  writeIORef)
+import qualified Data.ByteArray as BA
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Lazy as L
+import qualified Data.ByteString.Unsafe as B
+import qualified Data.Connection as TCP
+import           Data.IORef (IORef, newIORef, readIORef, writeIORef)
 import           Data.Typeable
 import           Data.Word
 import           Database.MySQL.Protocol.Auth
 import           Database.MySQL.Protocol.Command
 import           Database.MySQL.Protocol.Packet
-import           Network.Socket                  (HostName, PortNumber)
-import           System.IO.Streams               (InputStream)
-import qualified System.IO.Streams               as Stream
-import qualified System.IO.Streams.TCP           as TCP
-import qualified Data.Connection                 as TCP
+import           Network.Socket (HostName, PortNumber)
+import           System.IO.Streams (InputStream)
+import qualified System.IO.Streams as Stream
+import qualified System.IO.Streams.TCP as TCP
 
 --------------------------------------------------------------------------------
 
