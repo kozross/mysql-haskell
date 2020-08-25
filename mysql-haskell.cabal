@@ -1,6 +1,6 @@
 cabal-version:      2.2
 name:               mysql-haskell
-version:            0.9.0.0
+version:            0.9.1.0
 synopsis:           Pure Haskell MySQL driver.
 description:        Pure Haskell MySQL driver.
 homepage:           https://github.com/winterland1989/mysql-haskell
